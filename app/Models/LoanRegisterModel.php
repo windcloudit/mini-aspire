@@ -16,6 +16,8 @@ use Carbon\Carbon;
  */
 class LoanRegisterModel extends BaseModel
 {
+
+
     /**
      * LoanRegister constructor.
      * @param array $attributes
