@@ -1,0 +1,78 @@
+version: "2"
+
+# define the network
+networks:
+  web-network:
+    driver: bridge
+
+services:
+  postgre_sql:
+    build:
+      context: "."
+      dockerfile: "./docker/postgres/Dockerfile"
+    container_name: postgre_sql
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123123
+      - POSTGRES_DB=aspire_db
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    networks:
+      - web-network
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    ports:
+      - 8082:80
+    volumes:
+      - ./docker/postgres/pgadmin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "123123"
+    restart: always
+    links:
+      - postgre_sql:db
+    depends_on:
+      - postgre_sql
+    networks:
+      - web-network
+  webserver:
+    build:
+      context: "."
+      dockerfile: "./docker/php-apache/Dockerfile"
+    container_name: webserver
+    depends_on:
+      - postgre_sql
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/php-apache/apache2:/etc/apache2/sites-enabled
+    # connect to the network
+    # corresponds to the "--network" option
+    restart: "unless-stopped"
+    networks:
+      - web-network
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      PHP_IDE_CONFIG: "serverName=localhost"
+  mail_dev:
+    build:
+      context: .
+      dockerfile: ./docker/mail-dev/Dockerfile
+    container_name: mail_dev_server
+    ports:
+      - 8083:80
+      - 25:25
+    restart: always
+    depends_on:
+      - webserver
+    networks:
+      - web-network
+volumes:
+  postgresql_data:
+    driver: local
+

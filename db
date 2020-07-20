@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec -it mariadb bash -c "mysql -u root -p123123 rex_db"
