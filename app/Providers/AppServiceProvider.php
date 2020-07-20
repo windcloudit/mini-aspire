@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $classInjections = require(base_path() . '/config/bind.php');
+        foreach ($classInjections as $value) {
+            $this->app->singleton($value, $value . 'Impl');
+        }
     }
 
     /**

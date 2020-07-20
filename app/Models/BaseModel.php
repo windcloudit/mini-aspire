@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseModel extends Model
 {
+    protected int $cacheTime;
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+        $this->cacheTime = config('cache.cache_time');
         $this->hidden = array('created_by', 'updated_by', 'deleted_at');
     }
 
@@ -26,16 +29,11 @@ class BaseModel extends Model
             //Get User from Auth
             $user = Auth::user();
             if ($user) {
-                if ($user instanceof MusashinoEmployeeModel) {
-                    $userId = $user->getEmployeeId();
-                } else {
-                    $userId = $user->getId();
-                }
-                $model->setCreatedId($userId);
-                $model->setUpdatedId($userId);
+                $model->setCreatedBy($user->getId());
+                $model->setUpdatedBy($user->getId());
             } else {
-                $model->setCreatedId(0);
-                $model->setUpdatedId(0);
+                $model->setCreatedBy(0);
+                $model->setUpdatedBy(0);
             }
         });
 
@@ -44,14 +42,9 @@ class BaseModel extends Model
             //Get device id form session
             $user = Auth::user();
             if ($user) {
-                if ($user instanceof MusashinoEmployeeModel) {
-                    $userId = $user->getEmployeeId();
-                } else {
-                    $userId = $user->getId();
-                }
-                $model->setUpdatedId($userId);
+                $model->setUpdatedBy($user->getId());
             } else {
-                $model->setUpdatedId(0);
+                $model->setUpdatedBy(0);
             }
         });
     }

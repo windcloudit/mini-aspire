@@ -1,0 +1,1 @@
+INSERT INTO users (name, email, email_verified_at, password, remember_token, created_at, updated_at) VALUES ('Tat Pham', 'tat.pham89@gmail.com', null, '$2y$10$2r1r5pdlTQCG.3xsF1BKeOnR9kHkPCVhHzMqB.FLQOq.moOoQOeUG', null, '2020-07-20 15:07:59', '2020-07-20 15:07:59');

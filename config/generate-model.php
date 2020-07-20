@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 return [
     'models' => [
-        'bills' => 'Bill',
-        'classifications' => 'Classification',
+        'users' => 'User',
+        'loan_registers' => 'LoanRegister',
+        'repayments' => 'Repayment',
     ],
     'constants' => [
     ],
