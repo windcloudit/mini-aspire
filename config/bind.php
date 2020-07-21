@@ -13,6 +13,7 @@ return [
 
     \App\Services\AuthService\AuthService::class,
     \App\Services\LoanRegisterService\LoanRegisterService::class,
+    \App\Services\RepaymentService\RepaymentService::class,
     //*******************AUTO GENERATED - DO NOT MODIFY FROM HERE******************************
     \App\Repositories\UserRepository\UserRepository::class,
     \App\Repositories\LoanRegisterRepository\LoanRegisterRepository::class,

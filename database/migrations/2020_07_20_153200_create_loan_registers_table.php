@@ -26,6 +26,9 @@ class CreateLoanRegistersTable extends Migration
             // Foreign key
             $table->foreign('user_id')
                 ->references('id')->on('users');
+
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
         });
     }
 

@@ -19,6 +19,14 @@ use Illuminate\Support\Facades\DB;
  */
 class RepaymentRepositoryImpl implements RepaymentRepository
 {
+    /**
+     * @param array $arrRepayments
+     * @return bool|null
+     */
+    public function bulkInsert(array $arrRepayments): ?bool
+    {
+        return RepaymentModel::insert($arrRepayments);
+    }
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
     //*************************************************

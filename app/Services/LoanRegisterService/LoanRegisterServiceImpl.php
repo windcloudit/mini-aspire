@@ -5,9 +5,12 @@ namespace App\Services\LoanRegisterService;
 use App\Http\Requests\LoanRegisterRequest;
 use App\Models\LoanRegisterModel;
 use App\Models\RepaymentModel;
+use App\Models\UserModel;
 use App\Repositories\LoanRegisterRepository\LoanRegisterRepository;
+use App\Repositories\RepaymentRepository\RepaymentRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  *  Class LoanRegisterServiceImpl
@@ -25,13 +28,27 @@ class LoanRegisterServiceImpl implements LoanRegisterService
      * @var LoanRegisterRepository
      */
     private LoanRegisterRepository $loanRegisterRepository;
+    /**
+     * @var RepaymentRepository
+     */
+    private RepaymentRepository $repaymentRepository;
 
-    public function __construct(LoanRegisterRepository $loanRegisterRepository)
+    /**
+     * LoanRegisterServiceImpl constructor.
+     * @param LoanRegisterRepository $loanRegisterRepository
+     * @param RepaymentRepository $repaymentRepository
+     */
+    public function __construct(LoanRegisterRepository $loanRegisterRepository, RepaymentRepository $repaymentRepository)
     {
         $this->loanRegisterRepository = $loanRegisterRepository;
+        $this->repaymentRepository = $repaymentRepository;
     }
 
-    // Implement function interface here
+    /**
+     * @param LoanRegisterRequest $request
+     * @return array|null
+     * @throws \Exception
+     */
     public function getPaymentList(LoanRegisterRequest $request): ?array
     {
         try {
@@ -43,9 +60,52 @@ class LoanRegisterServiceImpl implements LoanRegisterService
         }
     }
 
+    /**
+     * @param LoanRegisterRequest $request
+     * @return int|null
+     * @throws \Exception
+     */
+    public function loanRegister(LoanRegisterRequest $request): ?int
+    {
+        try {
+            DB::beginTransaction();
+            $interestRate = $request->get(LoanRegisterModel::INTEREST_RATE);
+            $amount = $request->get(LoanRegisterModel::AMOUNT);
+            $loanTerm = $request->get(LoanRegisterModel::LOAN_TERM);
+
+            /**@var UserModel $user*/
+            $user = Auth::user();
+            // create loan register
+            $loanRegister = new LoanRegisterModel();
+            $loanRegister->setUserId($user->getId())
+                ->setDocumentDate(Carbon::now())
+                ->setInterestRate($interestRate)
+                ->setAmount($amount)
+                ->setLoanTerm($loanTerm);
+            $this->loanRegisterRepository->saveLoanRegister($loanRegister);
+            // Create repayments
+            $arrRepayments = $this->calculateRepaymentList($interestRate, $amount, $loanTerm, $loanRegister->getId());
+            $result = $this->repaymentRepository->bulkInsert($arrRepayments);
+            DB::commit();
+            return $result;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param float $interestRate
+     * @param int $amount
+     * @param int $loanTerm
+     * @param int|null $loanRegisterId
+     * @return array
+     */
     private function calculateRepaymentList(float $interestRate, int $amount, int $loanTerm, int $loanRegisterId = null)
     {
         $now = Carbon::now();
+        /**@var UserModel $user*/
+        $user = Auth::user();
         $arrRepayment = [];
         $originalAmount = $amount;
         for ($week = 0; $week < $loanTerm; $week++) {
@@ -60,9 +120,13 @@ class LoanRegisterServiceImpl implements LoanRegisterService
             ->setOriginalAmount($amountPerWeek)
             ->setInterestAmount($interestAmount)
             ->setTotalAmount($amountPerWeek + $interestAmount)
-            ->setOutstandingBalance($outstandingBalance);
+            ->setOutstandingBalance($outstandingBalance)
+            ->setCreatedAt(Carbon::now())
+            ->setUpdatedAt(Carbon::now())
+            ->setCreatedBy($user->getId())
+            ->setUpdatedBy($user->getId());
 
-            $arrRepayment[] = $repayment;
+            $arrRepayment[] = $repayment->attributesToArray();
             $originalAmount = $outstandingBalance;
         }
         return $arrRepayment;

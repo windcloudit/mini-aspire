@@ -16,7 +16,7 @@ class LoginTest extends TestCase
     }
 
     /*
-    * Test testCreateUser
+    * Test testLogin
     */
     public function testLogin()
     {

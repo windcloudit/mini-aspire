@@ -17,6 +17,7 @@ use App\Repositories\BaseRepository\BaseRepository;
  */
 interface RepaymentRepository extends BaseRepository
 {
+    public function bulkInsert(array $arrRepayments): ?bool;
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
     //*************************************************

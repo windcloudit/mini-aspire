@@ -18,4 +18,5 @@ interface LoanRegisterService
 {
     // interface function here
     public function getPaymentList(LoanRegisterRequest $request): ?array;
+    public function loanRegister(LoanRegisterRequest $request): ?int;
 }

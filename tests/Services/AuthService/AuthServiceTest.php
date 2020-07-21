@@ -17,7 +17,7 @@ class AuthServiceTest extends TestCase
     }
 
     /*
-    * Test testCreateUser
+    * Test testLogin
     */
     public function testLogin()
     {

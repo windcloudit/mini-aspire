@@ -24,6 +24,8 @@ class CreateRepaymentsTable extends Migration
             $table->unsignedDecimal('outstanding_balance');
             $table->unsignedTinyInteger('status')->default(1)->comment('Status repayment');
             $table->timestamps();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
         });
     }
 

@@ -37,4 +37,21 @@ class LoanRegisterController extends Controller
         }
     }
 
+    /**
+     * Function use for submit loan register
+     * @uthor: tat.pham
+     *
+     * @param LoanRegisterRequest $request
+     * @return int
+     * @throws \Exception
+     */
+    public function submit(LoanRegisterRequest $request)
+    {
+        try {
+            return $this->loanRegisterService->loanRegister($request);
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
 }

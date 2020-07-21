@@ -367,4 +367,84 @@ class LoanRegisterModel extends BaseModel
 
         return Carbon::parse($dateValue)->timestamp;
     }
+
+    /**
+    * Constant for field `created_by`.
+    */
+    public const CREATED_BY = 'created_by';
+
+    /**
+    * Set created_by
+    * This setter will set value for field `created_by`.
+    *
+    * @param int $createdBy
+    *
+    * @return LoanRegisterModel
+    */
+    public function setCreatedBy($createdBy): LoanRegisterModel
+    {
+        if ($createdBy === null) {
+            $this->attributes[self::CREATED_BY] = null;
+        } else {
+            $this->attributes[self::CREATED_BY] = (int) $createdBy;
+        }
+
+        return $this;
+    }
+
+    /**
+    * Get created_by
+    * This getter will get value from field `created_by`.
+    *
+    * @return int || null
+    */
+    public function getCreatedBy(): ?int
+    {
+        $intValue = $this->attributes[self::CREATED_BY];
+        if ($intValue === null) {
+            return null;
+        }
+
+        return (int) $intValue;
+    }
+
+    /**
+    * Constant for field `updated_by`.
+    */
+    public const UPDATED_BY = 'updated_by';
+
+    /**
+    * Set updated_by
+    * This setter will set value for field `updated_by`.
+    *
+    * @param int $updatedBy
+    *
+    * @return LoanRegisterModel
+    */
+    public function setUpdatedBy($updatedBy): LoanRegisterModel
+    {
+        if ($updatedBy === null) {
+            $this->attributes[self::UPDATED_BY] = null;
+        } else {
+            $this->attributes[self::UPDATED_BY] = (int) $updatedBy;
+        }
+
+        return $this;
+    }
+
+    /**
+    * Get updated_by
+    * This getter will get value from field `updated_by`.
+    *
+    * @return int || null
+    */
+    public function getUpdatedBy(): ?int
+    {
+        $intValue = $this->attributes[self::UPDATED_BY];
+        if ($intValue === null) {
+            return null;
+        }
+
+        return (int) $intValue;
+    }
 }
