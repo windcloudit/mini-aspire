@@ -26,6 +26,8 @@ class TablesSeeder extends SQLFileSeeder
     {
         $tableNames = [
             'users',
+            'loan_registers',
+            'repayments',
         ];
         $result = [];
         foreach ($tableNames as $tableName) {

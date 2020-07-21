@@ -10941,3 +10941,7 @@ a.text-dark:focus {
 .repayment-check-list {
     margin-top: 10px;
 }
+
+#alert_info {
+    display: none;
+}

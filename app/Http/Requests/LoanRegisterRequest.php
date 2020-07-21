@@ -25,6 +25,7 @@ class LoanRegisterRequest extends FormRequest
     {
         return [
             'interest_rate' => 'required|numeric',
+            'document_date' => 'required|string',
             'loan_term' => 'required|numeric',
             'amount' => 'required|numeric',
         ];

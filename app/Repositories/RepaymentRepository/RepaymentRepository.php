@@ -4,6 +4,7 @@ namespace App\Repositories\RepaymentRepository;
 
 use App\Models\RepaymentModel;
 use App\Repositories\BaseRepository\BaseRepository;
+use Illuminate\Support\Collection;
 
 /**
  *  Repayment repository
@@ -18,6 +19,8 @@ use App\Repositories\BaseRepository\BaseRepository;
 interface RepaymentRepository extends BaseRepository
 {
     public function bulkInsert(array $arrRepayments): ?bool;
+
+    public function getRepaymentList(): ?Collection;
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
     //*************************************************

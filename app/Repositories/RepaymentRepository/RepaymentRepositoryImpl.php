@@ -2,9 +2,12 @@
 
 namespace App\Repositories\RepaymentRepository;
 
+use App\Models\LoanRegisterModel;
 use App\Models\RepaymentModel;
+use App\Models\UserModel;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -26,6 +29,24 @@ class RepaymentRepositoryImpl implements RepaymentRepository
     public function bulkInsert(array $arrRepayments): ?bool
     {
         return RepaymentModel::insert($arrRepayments);
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getRepaymentList(): ?Collection
+    {
+        /**@var UserModel $user*/
+        $user = Auth::user();
+        $query = LoanRegisterModel::query()
+            ->select('repayments.*')
+            ->leftJoin('repayments', 'repayments.loan_register_id', '=', 'loan_registers.id')
+            ->where([
+                ['loan_registers.user_id', $user->getId()]
+            ])
+        ->orderBy('repayments.repayment_due_date');
+
+        return $query->get();
     }
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE

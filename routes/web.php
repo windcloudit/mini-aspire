@@ -26,7 +26,6 @@ Route::middleware('auth')->prefix('loan')->group(function () {
 });
 // Repayments
 Route::middleware('auth')->prefix('repayments')->group(function () {
-    Route::get('', 'Repayment\RepaymentController@check')->name('repayments.list');
-    Route::post('', 'Repayment\RepaymentController@submit')->name('repayments.submit');
+    Route::get('', 'Repayment\RepaymentController@index')->name('repayments.list');
+    Route::put('{id}', 'Repayment\RepaymentController@submit')->name('repayments.submit');
 });
-

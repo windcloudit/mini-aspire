@@ -52,8 +52,12 @@ class LoanRegisterServiceImpl implements LoanRegisterService
     public function getPaymentList(LoanRegisterRequest $request): ?array
     {
         try {
-            $parameters = array_values($request->only(LoanRegisterModel::INTEREST_RATE, LoanRegisterModel::AMOUNT,
-                LoanRegisterModel::LOAN_TERM));
+            $parameters = array_values($request->only(
+                LoanRegisterModel::DOCUMENT_DATE,
+                LoanRegisterModel::INTEREST_RATE,
+                LoanRegisterModel::AMOUNT,
+                LoanRegisterModel::LOAN_TERM
+            ));
             return $this->calculateRepaymentList(...$parameters);
         } catch (\Exception $exception) {
             throw $exception;
@@ -69,22 +73,33 @@ class LoanRegisterServiceImpl implements LoanRegisterService
     {
         try {
             DB::beginTransaction();
+            $documentDate = $request->get(LoanRegisterModel::DOCUMENT_DATE);
             $interestRate = $request->get(LoanRegisterModel::INTEREST_RATE);
             $amount = $request->get(LoanRegisterModel::AMOUNT);
             $loanTerm = $request->get(LoanRegisterModel::LOAN_TERM);
 
             /**@var UserModel $user*/
             $user = Auth::user();
+            // Delete old data
+            /**@var LoanRegisterModel $oldLoanRegister*/
+            $oldLoanRegister = $this->loanRegisterRepository->getFirstWhere([
+                [LoanRegisterModel::USER_ID, $user->getId()]
+            ]);
+            $this->loanRegisterRepository->deleteById($oldLoanRegister->getId());
+            // Delete old repayments
+            $this->repaymentRepository->bulkDeleteByWhere([
+                [RepaymentModel::LOAN_REGISTER_ID, $oldLoanRegister->getId()]
+            ]);
             // create loan register
             $loanRegister = new LoanRegisterModel();
             $loanRegister->setUserId($user->getId())
-                ->setDocumentDate(Carbon::now())
+                ->setDocumentDate($documentDate)
                 ->setInterestRate($interestRate)
                 ->setAmount($amount)
                 ->setLoanTerm($loanTerm);
             $this->loanRegisterRepository->saveLoanRegister($loanRegister);
             // Create repayments
-            $arrRepayments = $this->calculateRepaymentList($interestRate, $amount, $loanTerm, $loanRegister->getId());
+            $arrRepayments = $this->calculateRepaymentList($documentDate, $interestRate, $amount, $loanTerm, $loanRegister->getId());
             $result = $this->repaymentRepository->bulkInsert($arrRepayments);
             DB::commit();
             return $result;
@@ -101,9 +116,9 @@ class LoanRegisterServiceImpl implements LoanRegisterService
      * @param int|null $loanRegisterId
      * @return array
      */
-    private function calculateRepaymentList(float $interestRate, int $amount, int $loanTerm, int $loanRegisterId = null)
+    private function calculateRepaymentList(string $documentDate, float $interestRate, int $amount, int $loanTerm, int $loanRegisterId = null)
     {
-        $now = Carbon::now();
+        $now = Carbon::parse($documentDate);
         /**@var UserModel $user*/
         $user = Auth::user();
         $arrRepayment = [];
@@ -111,12 +126,12 @@ class LoanRegisterServiceImpl implements LoanRegisterService
         for ($week = 0; $week < $loanTerm; $week++) {
             $dueDate = clone $now;
             $repayment = new RepaymentModel();
-            $amountPerWeek = $originalAmount/($loanTerm - $week);
+            $amountPerWeek = $originalAmount / ($loanTerm - $week);
             $outstandingBalance = $originalAmount - $amountPerWeek;
-            $interestAmount = $originalAmount * ($interestRate/100);
+            $interestAmount = $originalAmount * ($interestRate / 100);
             $repayment->setLoanRegisterId($loanRegisterId)
             ->setRepaymentDueDate($dueDate->addWeeks($week + 1)->format('Y-m-d'))
-            ->setWeek($week+1)
+            ->setWeek($week + 1)
             ->setOriginalAmount($amountPerWeek)
             ->setInterestAmount($interestAmount)
             ->setTotalAmount($amountPerWeek + $interestAmount)

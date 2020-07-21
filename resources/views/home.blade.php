@@ -16,9 +16,9 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text input-title" id="document_date">Document Date</span>
+                            <span class="input-group-text input-title" id="document_date_label">Document Date</span>
                         </div>
-                        <input type="text" class="form-control" value="{{Illuminate\Support\Carbon::now()->format('Y-m-d')}}" aria-label="document_date" aria-describedby="basic-addon1" readonly>
+                        <input type="date" class="form-control" id="document_date" name="document_date" aria-label="document_date" aria-describedby="basic-addon1" value="{{Illuminate\Support\Carbon::now()->format('Y-m-d')}}" min="{{Illuminate\Support\Carbon::now()->subDays(30)->format('Y-m-d')}}" placeholder="dd-mm-yyyy" />
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

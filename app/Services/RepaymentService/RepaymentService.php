@@ -15,4 +15,7 @@ namespace App\Services\RepaymentService;
 interface RepaymentService
 {
     // interface function here
+    public function getRepaymentList(): ?array;
+
+    public function submitRepay(int $id): ?array;
 }

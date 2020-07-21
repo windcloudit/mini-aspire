@@ -1,0 +1,1 @@
+INSERT INTO loan_registers (id, user_id, document_date, interest_rate, amount, loan_term, approve, created_at, updated_at, created_by, updated_by) VALUES (1, 1, '2020-07-01', 1, 100000, 10, true, '2020-07-21 16:18:48', '2020-07-21 16:18:48', 1, 1);

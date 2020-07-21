@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Exceptions;
@@ -12,6 +13,7 @@ namespace App\Exceptions;
 abstract class ApplicationException extends \Exception
 {
     const LOGIN_ERROR = 40001;
+    const DENY = 40002;
 
     /**
      * @var string

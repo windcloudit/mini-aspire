@@ -10,7 +10,7 @@ class BaseModel extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->hidden = array('created_by', 'updated_by', 'deleted_at');
+        $this->hidden = array('deleted_at');
     }
 
     /**

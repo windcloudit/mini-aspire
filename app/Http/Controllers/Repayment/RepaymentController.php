@@ -27,9 +27,22 @@ class RepaymentController extends Controller
      * @param LoanRegisterRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(LoanRegisterRequest $request)
+    public function index()
     {
-        return view('repayment/index');
+        try {
+            $data = $this->repaymentService->getRepaymentList();
+            return view('repayment/index', ['data' => $data]);
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
+    public function submit(int $id)
+    {
+        try {
+            return $this->repaymentService->submitRepay($id);
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
 }
