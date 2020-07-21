@@ -7,12 +7,9 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseModel extends Model
 {
-    protected int $cacheTime;
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->cacheTime = config('cache.cache_time');
         $this->hidden = array('created_by', 'updated_by', 'deleted_at');
     }
 

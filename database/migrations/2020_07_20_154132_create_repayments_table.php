@@ -17,6 +17,7 @@ class CreateRepaymentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('loan_register_id');
             $table->date('repayment_due_date');
+            $table->unsignedInteger('week');
             $table->unsignedDecimal('original_amount');
             $table->unsignedDecimal('interest_amount');
             $table->unsignedDecimal('total_amount');

@@ -71,7 +71,7 @@ class LoginController extends Controller
             $credentials = array_values($request->only(UserModel::EMAIL, UserModel::PASSWORD,
                 UserModel::REMEMBER_TOKEN));
             $this->authService->login(...$credentials);
-            return redirect()->intended('/');
+            return redirect()->intended('/')->with('status', 'Login successful');
         } catch (MyException $exception) {
             return redirect('login')->withErrors(['email' => $exception->getMessage()]);
         } catch (\Exception $exception) {

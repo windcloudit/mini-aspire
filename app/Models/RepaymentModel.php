@@ -150,6 +150,46 @@ class RepaymentModel extends BaseModel
     }
 
     /**
+    * Constant for field `week`.
+    */
+    public const WEEK = 'week';
+
+    /**
+    * Set week
+    * This setter will set value for field `week`.
+    *
+    * @param int $week
+    *
+    * @return RepaymentModel
+    */
+    public function setWeek($week): RepaymentModel
+    {
+        if ($week === null) {
+            $this->attributes[self::WEEK] = null;
+        } else {
+            $this->attributes[self::WEEK] = (int) $week;
+        }
+
+        return $this;
+    }
+
+    /**
+    * Get week
+    * This getter will get value from field `week`.
+    *
+    * @return int || null
+    */
+    public function getWeek(): ?int
+    {
+        $intValue = $this->attributes[self::WEEK];
+        if ($intValue === null) {
+            return null;
+        }
+
+        return (int) $intValue;
+    }
+
+    /**
     * Constant for field `original_amount`.
     */
     public const ORIGINAL_AMOUNT = 'original_amount';

@@ -9,8 +9,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class MsAlertInfoTableSeeder
- * @author: masaki.kitamura
+ * Class TablesSeeder
+ * @author: Tat.Pham
  *
  * @package Database\Seeds\Tables
  */

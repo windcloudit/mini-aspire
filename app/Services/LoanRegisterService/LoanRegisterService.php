@@ -2,6 +2,8 @@
 
 namespace App\Services\LoanRegisterService;
 
+use App\Http\Requests\LoanRegisterRequest;
+
 /**
  *  Interface LoanRegisterService
  *
@@ -15,4 +17,5 @@ namespace App\Services\LoanRegisterService;
 interface LoanRegisterService
 {
     // interface function here
+    public function getPaymentList(LoanRegisterRequest $request): ?array;
 }

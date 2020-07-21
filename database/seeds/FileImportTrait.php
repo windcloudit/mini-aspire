@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Database\Seeds;
 
 use App\Common\Helpers\CharsetHelper;
-use App\Common\Helpers\StringHelper;
 use Illuminate\Support\Facades\DB;
 
 /**
  *  This trait supports for importing data to database.
- * @author: ta.tpham
+ * @author: tat.tpham
  * @package Database\Seeds
  */
 trait FileImportTrait

@@ -20,3 +20,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/login', 'Authentication\LoginController@index')->name('login');
 Route::post('/login', 'Authentication\LoginController@login')->name('login');
 Route::post('/logout', 'Authentication\LogoutController@logout')->name('logout');
+// Loan register
+Route::get('/check', 'LoanRegister\LoanRegisterController@check')->name('loan.check');

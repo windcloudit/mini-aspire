@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\LoanRegister;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoanRegisterRequest;
 use App\Services\LoanRegisterService\LoanRegisterService;
 
 class LoanRegisterController extends Controller
@@ -15,7 +16,7 @@ class LoanRegisterController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param LoanRegisterService $loanRegisterService
      */
     public function __construct(LoanRegisterService $loanRegisterService)
     {
@@ -23,14 +24,14 @@ class LoanRegisterController extends Controller
     }
 
     /**
-     * Index register page
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param LoanRegisterRequest $request
+     * @return array|null
+     * @throws \Exception
      */
-    public function register()
+    public function check(LoanRegisterRequest $request)
     {
         try {
-
+            return $this->loanRegisterService->getPaymentList($request);
         } catch (\Exception $exception) {
             throw $exception;
         }
