@@ -114,9 +114,9 @@ const repaySubmit = (id) => {
             let currentDate = new Date();
             let buttonContent = '';
             let content = data.map(item => {
-                totalOriginalAmount+=item.original_amount;
-                totalInterestAmount+=item.interest_amount;
-                totalAmount+=item.total_amount;
+                totalOriginalAmount+=Number.parseFloat(item.original_amount);
+                totalInterestAmount+=Number.parseFloat(item.interest_amount);
+                totalAmount+=Number.parseFloat(item.total_amount);
                 let dueDate = new Date(item.repayment_due_date);
                 if (item.status === 0) {
                     buttonContent = "<button type='button' class='btn btn-secondary' disabled>Done</button>";
