@@ -21,7 +21,7 @@ The source code can run on both environment MAC & Win.
 
 In this project we use Repository-Service Pattern and DI (Dependency Injection) to develop.
 
-<img src="guide/repository-service-pattern-diagram.png" width="200">
+<img src="guide/repository-service-pattern-diagram.png" width="350">
 
 - Service layer will handle logic.
 - Repo layer will handle access to data.
