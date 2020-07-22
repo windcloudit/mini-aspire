@@ -192,14 +192,14 @@ app
     Providers				This folder is default of laravel it define providers in app
     Repositories			This folder will contain repository class layer to interact with db, all query will be write in here
         BaseRepository											
-            BaseRepository.php	    This is interface file
+            BaseRepository.php	        This is interface file
         LoanRegisterRepository											
             LoanRegisterRepository.php										
             LoanRegisterRepositoryImpl.php										
         ...											
     Services				This folder is layer service will contain service class to handle implement logic code
         AuthService											
-            AuthService.php		    This is interface file
+            AuthService.php		This is interface file
             AuthServiceImpl.php		This is implement file
         LoanRegisterService											
             LoanRegisterService.php	This is interface file
