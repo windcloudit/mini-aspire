@@ -85,7 +85,7 @@ Go to in container by this command
 
 After that run command
 
-`$ composer install`
+`$ composer install --optimize-autoloader --no-dev`
 
 ### 4. Create .env file
 
