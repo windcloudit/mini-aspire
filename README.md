@@ -2,7 +2,7 @@
 
 Copyright by Tat Pham
 
-Guide line content
+Guideline content
 
 - [About Project](#about-project)
 - [About Structure](#about-structure)
