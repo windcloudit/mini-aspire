@@ -52,7 +52,7 @@ $("#button_check").click(function(e) {
             interest_rate: $("#interest_rate").val(),
             document_date: $("#document_date").val(),
             loan_term: $("#loan_term").val(),
-            amount: $("#amount").val(),
+            amount: parseFloat($("#amount").val().replace(/,/g, '')),
         },
         success: function(data) {
             let totalOriginalAmount = 0;
@@ -85,7 +85,7 @@ $("#button_submit").click(function(e) {
             interest_rate: $("#interest_rate").val(),
             document_date: $("#document_date").val(),
             loan_term: $("#loan_term").val(),
-            amount: $("#amount").val(),
+            amount: parseFloat($("#amount").val().replace(/,/g, '')),
         },
         success: function() {
             window.location.replace("/repayments");

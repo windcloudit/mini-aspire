@@ -18,4 +18,5 @@ interface AuthService
 {
     // interface function here
     public function login(string $email, string $password, string $isRemember = null): ?UserModel;
+    public function register(string $name, string $email, string $password): ?UserModel;
 }

@@ -17,6 +17,6 @@ use App\Http\Requests\LoanRegisterRequest;
 interface LoanRegisterService
 {
     // interface function here
-    public function getPaymentList(LoanRegisterRequest $request): ?array;
-    public function loanRegister(LoanRegisterRequest $request): ?int;
+    public function getPaymentList(array $data): ?array;
+    public function loanRegister(array $data): ?int;
 }

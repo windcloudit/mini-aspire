@@ -31,7 +31,8 @@ class LoanRegisterController extends Controller
     public function check(LoanRegisterRequest $request)
     {
         try {
-            return $this->loanRegisterService->getPaymentList($request);
+            $parameters = $request->all();
+            return $this->loanRegisterService->getPaymentList($parameters);
         } catch (\Exception $exception) {
             throw $exception;
         }
@@ -48,10 +49,10 @@ class LoanRegisterController extends Controller
     public function submit(LoanRegisterRequest $request)
     {
         try {
-            return $this->loanRegisterService->loanRegister($request);
+            $parameters = $request->all();
+            return $this->loanRegisterService->loanRegister($parameters);
         } catch (\Exception $exception) {
             throw $exception;
         }
     }
-
 }

@@ -45,19 +45,19 @@ class LoanRegisterServiceImpl implements LoanRegisterService
     }
 
     /**
-     * @param LoanRegisterRequest $request
+     * @param array $data
      * @return array|null
      * @throws \Exception
      */
-    public function getPaymentList(LoanRegisterRequest $request): ?array
+    public function getPaymentList(array $data): ?array
     {
         try {
-            $parameters = array_values($request->only(
-                LoanRegisterModel::DOCUMENT_DATE,
-                LoanRegisterModel::INTEREST_RATE,
-                LoanRegisterModel::AMOUNT,
-                LoanRegisterModel::LOAN_TERM
-            ));
+            $parameters = [
+                $data[LoanRegisterModel::DOCUMENT_DATE],
+                (float) $data[LoanRegisterModel::INTEREST_RATE],
+                (int) $data[LoanRegisterModel::AMOUNT],
+                (int) $data[LoanRegisterModel::LOAN_TERM]
+            ];
             return $this->calculateRepaymentList(...$parameters);
         } catch (\Exception $exception) {
             throw $exception;
@@ -65,18 +65,18 @@ class LoanRegisterServiceImpl implements LoanRegisterService
     }
 
     /**
-     * @param LoanRegisterRequest $request
+     * @param array $data
      * @return int|null
      * @throws \Exception
      */
-    public function loanRegister(LoanRegisterRequest $request): ?int
+    public function loanRegister(array $data): ?int
     {
         try {
             DB::beginTransaction();
-            $documentDate = $request->get(LoanRegisterModel::DOCUMENT_DATE);
-            $interestRate = $request->get(LoanRegisterModel::INTEREST_RATE);
-            $amount = $request->get(LoanRegisterModel::AMOUNT);
-            $loanTerm = $request->get(LoanRegisterModel::LOAN_TERM);
+            $documentDate = $data[LoanRegisterModel::DOCUMENT_DATE];
+            $interestRate = (float) $data[LoanRegisterModel::INTEREST_RATE];
+            $amount = (int) $data[LoanRegisterModel::AMOUNT];
+            $loanTerm = (int) $data[LoanRegisterModel::LOAN_TERM];
 
             /**@var UserModel $user*/
             $user = Auth::user();
@@ -85,11 +85,13 @@ class LoanRegisterServiceImpl implements LoanRegisterService
             $oldLoanRegister = $this->loanRegisterRepository->getFirstWhere([
                 [LoanRegisterModel::USER_ID, $user->getId()]
             ]);
-            $this->loanRegisterRepository->deleteById($oldLoanRegister->getId());
-            // Delete old repayments
-            $this->repaymentRepository->bulkDeleteByWhere([
-                [RepaymentModel::LOAN_REGISTER_ID, $oldLoanRegister->getId()]
-            ]);
+            if ($oldLoanRegister) {
+                $this->loanRegisterRepository->deleteById($oldLoanRegister->getId());
+                // Delete old repayments
+                $this->repaymentRepository->bulkDeleteByWhere([
+                    [RepaymentModel::LOAN_REGISTER_ID, $oldLoanRegister->getId()]
+                ]);
+            }
             // create loan register
             $loanRegister = new LoanRegisterModel();
             $loanRegister->setUserId($user->getId())
@@ -110,13 +112,14 @@ class LoanRegisterServiceImpl implements LoanRegisterService
     }
 
     /**
+     * @param string $documentDate
      * @param float $interestRate
      * @param int $amount
      * @param int $loanTerm
      * @param int|null $loanRegisterId
      * @return array
      */
-    private function calculateRepaymentList(string $documentDate, float $interestRate, int $amount, int $loanTerm, int $loanRegisterId = null)
+    private function calculateRepaymentList(string $documentDate, float $interestRate, int $amount, int $loanTerm, int $loanRegisterId = null): array
     {
         $now = Carbon::parse($documentDate);
         /**@var UserModel $user*/

@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Repositories\UserRepository\UserRepository;
+use App\Services\AuthService\AuthService;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -21,7 +22,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
     use RegistersUsers;
 
     /**
@@ -30,15 +30,19 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+    /**
+     * @var AuthService
+     */
+    private AuthService $authService;
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
+     * @param AuthService $authService
      */
-    public function __construct()
+    public function __construct(AuthService $authService)
     {
         $this->middleware('guest');
+        $this->authService = $authService;
     }
 
     /**
@@ -62,22 +66,26 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
 
+
     /**
      * Create a new user instance after a valid registration.
+     * @author: tat.pham
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param array $data
+     * @return mixed
+     * @throws \Exception
      */
-    protected function create(array $data)
+    public function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        try {
+            $parameters = array_values(array_slice($data, 1));
+            return $this->authService->register(...$parameters);
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 }

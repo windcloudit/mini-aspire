@@ -18,10 +18,10 @@ class CreateRepaymentsTable extends Migration
             $table->unsignedBigInteger('loan_register_id');
             $table->date('repayment_due_date');
             $table->unsignedInteger('week');
-            $table->unsignedDecimal('original_amount');
-            $table->unsignedDecimal('interest_amount');
-            $table->unsignedDecimal('total_amount');
-            $table->unsignedDecimal('outstanding_balance');
+            $table->unsignedFloat('original_amount');
+            $table->unsignedFloat('interest_amount');
+            $table->unsignedFloat('total_amount');
+            $table->unsignedFloat('outstanding_balance');
             $table->unsignedTinyInteger('status')->default(1)->comment('Status repayment');
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();

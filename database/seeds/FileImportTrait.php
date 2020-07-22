@@ -72,7 +72,11 @@ trait FileImportTrait
      */
     private function importSQL($sqlFile): bool
     {
-        $result = DB::unprepared(\file_get_contents($sqlFile));
-        return $result;
+        DB::unprepared(\file_get_contents($sqlFile));
+        $info = pathinfo($sqlFile);
+        $tableName =  basename($sqlFile,'.'.$info['extension']);
+        // Only for postgresSQL
+        $setVal = DB::unprepared("SELECT setval('" . $tableName . "_id_seq', (SELECT MAX(id) FROM " . $tableName . '))');
+        return $setVal;
     }
 }

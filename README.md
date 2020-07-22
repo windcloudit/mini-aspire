@@ -3,8 +3,6 @@ Copyright by Tat Pham
 
 Guide line content
 
-[toc]
-
 ## About Project
 
 This source code use for develop api service write by Laravel framework 7.x, The techs and some tool for develop in this project like as bellow:
@@ -13,8 +11,6 @@ This source code use for develop api service write by Laravel framework 7.x, The
 - PHP 7.4.3.
 - Docker & docker compose.
 - Postgres SQL 11.
-- Redis
-- REST api standard.
 - PHP standard PSR12.
 - PHPUnit 8.5.3.
 - Source control Git.
@@ -25,7 +21,7 @@ The source code can run on both environment MAC & Win.
 
 In this project we use Repository-Service Pattern and DI (Dependency Injection) to develop.
 
-Url refer: https://exceptionnotfound.net/content/images/2019/10/repository-service-pattern-diagram.png
+![title](guide/repository-service-pattern-diagram.png | width=250)
 
 - Service layer will handle logic.
 - Repo layer will handle access to data.

@@ -7,6 +7,7 @@ use App\Models\UserModel;
 use App\Repositories\UserRepository\UserRepository;
 use Illuminate\Hashing\HashManager;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /**
  *  Class AuthServiceImpl
@@ -66,4 +67,25 @@ class AuthServiceImpl implements AuthService
         }
     }
 
+    /**
+     * Function use for register new user
+     * @author: tat.pham
+     *
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @return UserModel|null
+     * @throws \Exception
+     */
+    public function register(string $name, string $email, string $password): ?UserModel
+    {
+        try {
+            $newUser = new UserModel();
+            $newUser->setName($name)->setEmail($email)->setPassword(Hash::make($password));
+            $this->userRepository->saveUser($newUser);
+            return $newUser;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
 }

@@ -28,8 +28,7 @@ class AuthServiceTest extends TestCase
         // create instance AuthService
         /**@var AuthService $authService*/
         $authService = $this->app->make(AuthService::class);
-        $response = $authService->login($email, $password);
-        $response->assertStatus(302);
+        $userResponse = $authService->login($email, $password);
+        $this->assertIsArray($userResponse->toArray());
     }
-
 }

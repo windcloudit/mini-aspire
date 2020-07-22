@@ -24,7 +24,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text input-title" id="amount_label">Amount</span>
                         </div>
-                        <input type="number" id="amount" class="form-control" min="1" step="1" placeholder="1000" value="1000" aria-label="amount" aria-describedby="amount" name="amount">
+                        <input type="text" id="amount" class="form-control number-separator" min="1" step="1" placeholder="1,000" value="1,000" aria-label="amount" aria-describedby="amount" name="amount">
                         <div class="input-group-append">
                             <span class="input-group-text">$</span>
                         </div>

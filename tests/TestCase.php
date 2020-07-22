@@ -2,7 +2,11 @@
 
 namespace Tests;
 
+use App\Models\LoanRegisterModel;
 use App\Models\UserModel;
+use App\Services\LoanRegisterService\LoanRegisterService;
+use App\Services\RepaymentService\RepaymentService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -56,5 +60,27 @@ abstract class TestCase extends BaseTestCase
             ->setEmail($email)
             ->save();
         return $user;
+    }
+
+    /**
+     * @param string $documentDate
+     * @param int $amount
+     * @param int $interestRate
+     * @param int $loanTerm
+     * @return int|null
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    protected function createRepaymentListForTest(string $documentDate, int $amount = 1000, int $interestRate = 1, int $loanTerm = 10): ?int
+    {
+        // Create repayment
+        /**@var LoanRegisterService $loanRegisterService*/
+        $loanRegisterService = $this->app->make(LoanRegisterService::class);
+        $parameters = [
+            'document_date' => $documentDate,
+            'interest_rate' => $interestRate,
+            'amount' => $amount,
+            'loan_term' => $loanTerm
+        ];
+        return $loanRegisterService->loanRegister($parameters);
     }
 }

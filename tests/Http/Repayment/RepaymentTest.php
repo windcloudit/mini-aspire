@@ -2,10 +2,11 @@
 
 namespace Tests\Http;
 
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Tests\TestCase;
 
-class LoanRegisterTest extends TestCase
+class RepaymentTest extends TestCase
 {
     /**
      * Setup for new test case.
@@ -18,7 +19,7 @@ class LoanRegisterTest extends TestCase
     /*
     * Test testCheck
     */
-    public function testCheck()
+    public function testIndex()
     {
         $faker = Faker::create();
         $email = $faker->email;
@@ -31,8 +32,8 @@ class LoanRegisterTest extends TestCase
             'loan_term' => 12,
             'amount' => 100000,
         ];
-        $response = $this->get(route('loan.check', $data));
-        $response->assertStatus(302);
+        $response = $this->get(route('repayments.list', $data));
+        $response->assertStatus(200);
     }
 
     /*
@@ -47,11 +48,12 @@ class LoanRegisterTest extends TestCase
         $this->be($user);
 
         $data = [
+            'document_date' => Carbon::now()->format('Y-m-d'),
             'interest_rate' => 1,
             'loan_term' => 12,
             'amount' => 100000,
         ];
         $response = $this->post(route('loan.submit'), $data);
-        $response->assertStatus(302);
+        $response->assertStatus(200);
     }
 }
