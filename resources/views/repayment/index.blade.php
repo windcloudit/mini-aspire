@@ -50,9 +50,9 @@
                                 @endforeach
                                 <tr class='thead-dark-footer'>
                                     <td colspan='2'>Total</td>
-                                    <td>{!! number_format($totalOriginalAmount, 2) !!}</td>
-                                    <td>{!! number_format($totalInterestAmount, 2) !!}</td>
-                                    <td colspan='3'>{!! number_format($totalAmount, 2) !!}</td>
+                                    <td>${!! number_format($totalOriginalAmount, 2) !!}</td>
+                                    <td>${!! number_format($totalInterestAmount, 2) !!}</td>
+                                    <td colspan='3'>${!! number_format($totalAmount, 2) !!}</td>
                                 </tr>
                             </tbody>
                         </table>
