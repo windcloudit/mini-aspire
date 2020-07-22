@@ -1,4 +1,4 @@
-#Aspire Test Project
+# Aspire Test Project
 
 Copyright by Tat Pham
 
@@ -38,11 +38,11 @@ on Docker setting go to `Resources > FILE SHARING ` and turn on the drive that y
 
 <img src="guide/docker-share.png" width="350">
 
-###1. Clone the source code from `develop` branch on your local
+### 1. Clone the source code from `develop` branch on your local
 
 `$ git clone https://github.com/windcloudit/mini-aspire.git`
 
-###2. Start docker
+### 2. Start docker
 
 This step only for one time, for the next time the docker will start automatic.
 Open your visual studio code (or any IDE have terminal) open the folder contain the source code.
@@ -50,7 +50,7 @@ Open terminal of visual studio and run command bellow (this command only run one
 
 `$ docker-compose up --build -d`
 
-###3. Install composer
+### 3. Install composer
 
 For the first time you need install composer to run laravel by this command
 
@@ -62,7 +62,7 @@ After that run command
 
 `$ composer install`
 
-###4. Create .env file
+### 4. Create .env file
 
 From the source code copy file `.env.example` to `.env` and run this command
 
@@ -74,7 +74,7 @@ After that run command
 
 `$ php artisan key:generate`
 
-###5. Create database
+### 5. Create database
 
 In this project I use function migration and seed of laravel to create data base and import data sample for dev, So from now anytime you want to create new db you just run follow command.
 
@@ -86,7 +86,7 @@ After that run command
 
 `$ php artisan migrate:fresh --seed`
 
-###6. Config PSR12 (Only for develop)
+### 6. Config PSR12 (Only for develop)
 
 Run this command to install php variable standard, if you want to commit source code to, because this source code already setup PSR12 in git hook.
 
@@ -98,11 +98,11 @@ Note: To run commandline like as phpunit or git or any you should go to inside c
 
 ## Url in project
 
-###1. For API debug
+### 1. For API debug
 
 `http://localhost:8080`
 
-###2. For PgAdmin
+### 2. For PgAdmin
 
 `http://localhost:8081`
 
@@ -201,19 +201,19 @@ Note: All command should be run inside container
 
 `$ docker exec -it webserver bash`
 
-###1. Generate model
+### 1. Generate model
 
 This command will help you generate auto model and repository class, you can config which one table need to be generated in `config/generate-model.php`, in this file you also config to generate constant value in DB base on column as you want.
 
 `$ php artisan generate:model`
 
-###2. Generate service
+### 2. Generate service
 
 This command will help you generate a service class, it will help you auto config to binding new class to App Service, if you create by hand service class you have to config by hand in `config/bind.php`
 
 `$ php artisan generate:service`
 
-###3. Generate action
+### 3. Generate action
 
 This command will help you auto generate a action and config uri of it and auto generate a basic skeleton unit test for this action.
 
@@ -226,7 +226,7 @@ Note: In model and repository class you will see this comment, please don't dele
     //*************************************************
 ```
 
-###4. Run unit test
+### 4. Run unit test
 
 Run phpunit test on single method
 
@@ -272,9 +272,9 @@ This project I already setup docker for developer and this is some command line 
 
 `$ docker images`
 
-###5. Guide exec test project
+### 5. Guide exec test project
 
-###1. Login
+### 1. Login
 
 After setup and run seed data you can login test web by this account
 
@@ -284,7 +284,7 @@ Or you can create your about by yourself by register page
 
 <img src="guide/register-page.png" width="550">
 
-###2. Home page
+### 2. Home page
 
 After login you can see the main page, in this page you can input info to check your loan and submit your loan.
 In this page have some fields bellow:
