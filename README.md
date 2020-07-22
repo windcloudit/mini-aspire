@@ -4,6 +4,31 @@ Copyright by Tat Pham
 
 Guide line content
 
+- [About Project](#about-project)
+- [About Structure](#about-structure)
+- [Setup on Your Local](#setup-on-your-local)
+    - [1. Clone the source code from develop branch on your local](#1-clone-the-source-code-from-develop-branch-on-your-local)
+    - [2. Start docker](#2-start-docker)
+    - [3. Install composer](#3-install-composer)
+    - [4. Create .env file](#4-create-env-file)
+    - [5. Create database](#5-create-database)
+    - [6. Config PSR12 (Only for develop)](#6-config-psr12-only-for-develop)
+- [Url in project](#url-in-project)
+    - [1. For API debug](#1-for-api-debug)
+    - [2. For PgAdmin](#2-for-pgadmin)
+- [Coding rule](#coding-rule)
+- [Naming rule](#naming-rule)
+- [Folder structure](#folder-structure)
+- [Generate code command](#generate-code-command)
+    - [1. Generate model](#1-generate-model)
+    - [2. Generate service](#2-generate-service)
+    - [4. Run unit test](#4-run-unit-test)
+- [Docker command](#docker-command)
+- [Guide exec test project](#guide-exec-test-project)
+    - [1. Login](#1-login)
+    - [2. Home page](#2-home-page)
+    - [Repayment page](#3-repayment-page)
+ 
 ## About Project
 
 This source code use for develop api service write by Laravel framework 7.x, The techs and some tool for develop in this project like as bellow:
@@ -272,7 +297,7 @@ This project I already setup docker for developer and this is some command line 
 
 `$ docker images`
 
-### 5. Guide exec test project
+## 5. Guide exec test project
 
 ### 1. Login
 
@@ -299,6 +324,8 @@ After input you can check your loan before submit if everything ok you can submi
 <img src="guide/check-list.png" width="550">
 
 After submit you will be redirected to repayment page.
+
+### 3. Repayment page
 
 <img src="guide/repayment-list.png" width="550">
 
